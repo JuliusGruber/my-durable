@@ -65,6 +65,17 @@ pnpm deploy     # build and deploy to Cloudflare
 
 The Worker is named `my-durable` in [`wrangler.jsonc`](wrangler.jsonc). If your Cloudflare project already has a Worker with a different name, change the `name` field there so Wrangler deploys into it instead of creating a new Worker.
 
+### From the Cloudflare dashboard (no local machine needed)
+
+[Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) builds and deploys this repository on every push:
+
+1. In the Cloudflare dashboard open **Workers & Pages**, select the `my-durable` Worker, then **Settings** > **Build** and connect this GitHub repository.
+2. Choose the branch to deploy from, set the build command to `pnpm build` and the deploy command to `pnpm exec wrangler deploy`. Leave the root directory empty. The build image picks up `pnpm@11.15.1` from `package.json` and its default Node.js satisfies the project.
+3. Under **Settings** > **Variables and Secrets** add a secret named `ANTHROPIC_API_KEY`.
+4. Trigger a build from the **Deployments** tab, or push a commit.
+
+### From a machine with Wrangler
+
 Authenticate Wrangler, store the API key as a Worker secret, then deploy:
 
 ```sh
