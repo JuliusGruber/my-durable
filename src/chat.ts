@@ -1,5 +1,5 @@
 import { createModels } from "@earendil-works/pi-ai/models";
-import { openaiProvider } from "@earendil-works/pi-ai/providers/openai";
+import { anthropicProvider } from "@earendil-works/pi-ai/providers/anthropic";
 import {
   configure,
   createRegistry,
@@ -12,7 +12,7 @@ import { conversationSearchExtension, searchHistoryTool } from "./search.ts";
 import { getWeatherTool, scheduleTool } from "./tools.ts";
 
 const models = createModels();
-models.setProvider(openaiProvider());
+models.setProvider(anthropicProvider());
 
 /** Application-owned, platform-independent agent composition. */
 export function createChatHarnessOptions(): HarnessOptions {
@@ -39,8 +39,10 @@ export function createChatHarnessOptions(): HarnessOptions {
   registry.install(chatExtension);
   registry.install(conversationSearchExtension);
   const defaultAgent = {
-    model: { provider: "openai", modelId: "gpt-6-luna" },
-    thinkingLevel: "off" as const,
+    // Reads ANTHROPIC_API_KEY from the Worker environment. Claude Opus 5.5 always thinks, so "off" is not
+    // available; "low" maps to Anthropic's low effort level, which suits a concise chat assistant.
+    model: { provider: "anthropic", modelId: "claude-opus-5-5" },
+    thinkingLevel: "low" as const,
     tools: [getWeatherTool, scheduleTool, searchHistoryTool],
   };
 

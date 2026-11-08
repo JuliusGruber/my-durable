@@ -547,8 +547,8 @@ describe("chat application", () => {
           type: "snapshot",
           entries: [],
           agent: {
-            model: { provider: "openai", modelId: "gpt-6-luna" },
-            thinkingLevel: "off",
+            model: { provider: "anthropic", modelId: "claude-opus-5-5" },
+            thinkingLevel: "low",
             tools: ["get_weather", "schedule", "search_history"],
           },
         },

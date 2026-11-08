@@ -29,7 +29,7 @@ There is no authentication or rate limiting yet. Add both before exposing a depl
 
 ## Run it locally
 
-You need Node.js 22.19 or newer, pnpm 11, and an OpenAI API key.
+You need Node.js 22.19 or newer, pnpm 11, and an Anthropic API key.
 
 ```sh
 pnpm install
@@ -39,7 +39,7 @@ cp .dev.vars.example .dev.vars
 Add your key to `.dev.vars`:
 
 ```dotenv
-OPENAI_API_KEY=your-key
+ANTHROPIC_API_KEY=your-key
 ```
 
 Then start the Worker and React client together:
@@ -69,13 +69,13 @@ Authenticate Wrangler, store the API key as a Worker secret, then deploy:
 
 ```sh
 pnpm exec wrangler login
-pnpm exec wrangler secret put OPENAI_API_KEY
+pnpm exec wrangler secret put ANTHROPIC_API_KEY
 pnpm deploy
 ```
 
 The first deploy creates the `Session` Durable Object class with SQLite storage. Durable Objects require a Workers paid plan or the free tier's SQLite-backed Durable Objects.
 
-To use a different model provider, edit `createChatHarnessOptions` in [`src/chat.ts`](src/chat.ts) and add the matching secret.
+The default agent runs Claude Opus 5.5 (`claude-opus-5-5`) through the Anthropic API with low thinking effort. To change the model or provider, edit `createChatHarnessOptions` in [`src/chat.ts`](src/chat.ts) and add the matching secret.
 
 ## Further reading
 
